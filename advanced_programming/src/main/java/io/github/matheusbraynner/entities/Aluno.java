@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Aluno implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +25,4 @@ public class Aluno implements Serializable {
 	private String telefone;
 	private String endereco;
 	private String cpf;
-
 }
