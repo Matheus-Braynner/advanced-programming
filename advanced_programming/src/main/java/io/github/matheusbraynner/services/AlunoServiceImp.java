@@ -32,7 +32,7 @@ public class AlunoServiceImp implements AlunoService {
 	@Override
 	public List<AlunoDTO> findAll() {
 		List<Aluno> alunoList = repository.findAll();
-		List<AlunoDTO> alunoListDTO = alunoList.stream().map(x -> new AlunoDTO()).collect(Collectors.toList());
+		List<AlunoDTO> alunoListDTO = alunoList.stream().map(x -> new AlunoDTO(x)).collect(Collectors.toList());
 		return alunoListDTO;
 	}
 
