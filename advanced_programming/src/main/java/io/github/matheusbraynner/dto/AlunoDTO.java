@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class AlunoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
+	private Long id;
 	private String nome;
 	private String telefone;
 	private String endereco;

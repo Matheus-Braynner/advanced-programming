@@ -37,14 +37,14 @@ public class AlunoServiceImp implements AlunoService {
 	}
 
 	@Override
-	public AlunoDTO findById(Integer id) {
+	public AlunoDTO findById(Long id) {
 		Aluno aluno = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado o aluno com id : " + id));
 		return mapper.map(aluno, AlunoDTO.class);
 	}
 
 	@Override
-	public AlunoDTO update(Integer id, AlunoFormDTO body) {
+	public AlunoDTO update(Long id, AlunoFormDTO body) {
 		Aluno aluno = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado o aluno com id : " + id));
 		aluno.setNome(body.getNome());
@@ -55,7 +55,7 @@ public class AlunoServiceImp implements AlunoService {
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(Long id) {
 		try {
 		Aluno aluno = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado o aluno com id : " + id));

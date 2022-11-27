@@ -18,46 +18,46 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.matheusbraynner.dto.AlunoDTO;
-import io.github.matheusbraynner.dto.AlunoFormDTO;
-import io.github.matheusbraynner.services.AlunoService;
+import io.github.matheusbraynner.dto.DiaAulaDTO;
+import io.github.matheusbraynner.dto.DiaAulaFormDTO;
+import io.github.matheusbraynner.services.DiaAulaService;
 
 @RestController
-@RequestMapping(value = "/alunos")
-public class AlunoController {
+@RequestMapping(value = "/diasAulas")
+public class DiaAulaController {
 	
 	@Autowired
-	private AlunoService alunoService;
+	private DiaAulaService diaAulaService;
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<AlunoDTO> insert(@Valid @RequestBody AlunoFormDTO body) {
-		AlunoDTO aluno = alunoService.insert(body);
-		return ResponseEntity.status(HttpStatus.CREATED).body(aluno);
+	public ResponseEntity<DiaAulaDTO> insert(@Valid @RequestBody DiaAulaFormDTO body) {
+		DiaAulaDTO diaAula = diaAulaService.insert(body);
+		return ResponseEntity.status(HttpStatus.CREATED).body(diaAula);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<AlunoDTO>> findAll() {
-		List<AlunoDTO> alunoList = alunoService.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(alunoList);
+	public ResponseEntity<List<DiaAulaDTO>> findAll() {
+		List<DiaAulaDTO> diaAulaList = diaAulaService.findAll();
+		return ResponseEntity.status(HttpStatus.OK).body(diaAulaList);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<AlunoDTO> findById(@PathVariable Long id) {
-		AlunoDTO aluno = alunoService.findById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(aluno);
+	public ResponseEntity<DiaAulaDTO> findById(@PathVariable Long id) {
+		DiaAulaDTO diaAula = diaAulaService.findById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(diaAula);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<AlunoDTO> update(@Valid @RequestBody AlunoFormDTO body, @PathVariable Long id) {
-		AlunoDTO aluno = alunoService.update(id, body);
-		return ResponseEntity.status(HttpStatus.OK).body(aluno);
+	public ResponseEntity<DiaAulaDTO> update(@Valid @RequestBody DiaAulaFormDTO body, @PathVariable Long id) {
+		DiaAulaDTO diaAula = diaAulaService.update(id, body);
+		return ResponseEntity.status(HttpStatus.OK).body(diaAula);
 	}
 	
 	@DeleteMapping(value = "/{id}") 
 	@Transactional
 	public ResponseEntity<Void> delete (@PathVariable Long id){
-		alunoService.delete(id);
+		diaAulaService.delete(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

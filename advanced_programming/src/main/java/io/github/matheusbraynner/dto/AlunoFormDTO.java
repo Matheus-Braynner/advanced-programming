@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class AlunoFormDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
+	private Long id;
 	@NotBlank(message = "Campo obrigatório")
 	private String nome;
 	@NotBlank(message = "Campo obrigatório")
