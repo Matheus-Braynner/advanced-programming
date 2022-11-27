@@ -1,6 +1,5 @@
 package io.github.matheusbraynner.controllers;
 
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,46 +17,46 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.matheusbraynner.dto.AlunoDTO;
-import io.github.matheusbraynner.dto.AlunoFormDTO;
-import io.github.matheusbraynner.services.AlunoService;
+import io.github.matheusbraynner.dto.FeriadoDTO;
+import io.github.matheusbraynner.dto.FeriadoFormDTO;
+import io.github.matheusbraynner.services.FeriadoService;
 
 @RestController
-@RequestMapping(value = "/alunos")
-public class AlunoController {
-	
+@RequestMapping(value = "/feriados")
+public class FeriadoController {
+
 	@Autowired
-	private AlunoService alunoService;
+	private FeriadoService feriadoService;
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<AlunoDTO> insert(@Valid @RequestBody AlunoFormDTO body) {
-		AlunoDTO aluno = alunoService.insert(body);
-		return ResponseEntity.status(HttpStatus.CREATED).body(aluno);
+	public ResponseEntity<FeriadoDTO> insert(@Valid @RequestBody FeriadoFormDTO body) {
+		FeriadoDTO feriado = feriadoService.insert(body);
+		return ResponseEntity.status(HttpStatus.CREATED).body(feriado);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<AlunoDTO>> findAll() {
-		List<AlunoDTO> alunoList = alunoService.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(alunoList);
+	public ResponseEntity<List<FeriadoDTO>> findAll() {
+		List<FeriadoDTO> feriadoList = feriadoService.findAll();
+		return ResponseEntity.status(HttpStatus.OK).body(feriadoList);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<AlunoDTO> findById(@PathVariable Long id) {
-		AlunoDTO aluno = alunoService.findById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(aluno);
+	public ResponseEntity<FeriadoDTO> findById(@PathVariable Long id) {
+		FeriadoDTO feriado = feriadoService.findById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(feriado);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<AlunoDTO> update(@Valid @RequestBody AlunoFormDTO body, @PathVariable Long id) {
-		AlunoDTO aluno = alunoService.update(id, body);
-		return ResponseEntity.status(HttpStatus.OK).body(aluno);
+	public ResponseEntity<FeriadoDTO> update(@Valid @RequestBody FeriadoFormDTO body, @PathVariable Long id) {
+		FeriadoDTO feriado = feriadoService.update(id, body);
+		return ResponseEntity.status(HttpStatus.OK).body(feriado);
 	}
 	
 	@DeleteMapping(value = "/{id}") 
 	@Transactional
 	public ResponseEntity<Void> delete (@PathVariable Long id){
-		alunoService.delete(id);
+		feriadoService.delete(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

@@ -11,9 +11,9 @@ public interface AlunoService {
 	
 	List<AlunoDTO> findAll();
 	
-	AlunoDTO findById(Integer id);
+	AlunoDTO findById(Long id);
 	
-	AlunoDTO update(Integer id, AlunoFormDTO body);
+	AlunoDTO update(Long id, AlunoFormDTO body);
 	
-	void delete(Integer id);
+	void delete(Long id);
 }
