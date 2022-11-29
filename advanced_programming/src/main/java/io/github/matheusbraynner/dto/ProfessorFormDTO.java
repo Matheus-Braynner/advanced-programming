@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class ProfessorFormDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Long idProfessor;
+	private Long id;
 	@NotBlank(message = "Campo obrigatório")
 	private String nome;
 	@NotBlank(message = "Campo obrigatório")
