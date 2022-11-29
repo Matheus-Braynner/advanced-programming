@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 public class FeriadoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Long idFeriado;
+	private Long id;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date dataFeriado;
 	private String descricao;
 
 	public FeriadoDTO (Feriado feriado) {
-		this.idFeriado = feriado.getIdFeriado();
+		this.id = feriado.getId();
 		this.dataFeriado = feriado.getDataFeriado();
 		this.descricao = feriado.getDescricao();
 	}

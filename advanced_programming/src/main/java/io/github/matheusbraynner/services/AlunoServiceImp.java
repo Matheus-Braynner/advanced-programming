@@ -51,7 +51,8 @@ public class AlunoServiceImp implements AlunoService {
 		aluno.setTelefone(body.getTelefone());
 		aluno.setEndereco(body.getEndereco());
 		aluno.setCpf(body.getCpf());
-		return mapper.map(aluno, AlunoDTO.class);
+		Aluno alunoSaved = repository.save(aluno);
+		return mapper.map(alunoSaved, AlunoDTO.class);
 	}
 
 	@Override

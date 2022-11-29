@@ -49,7 +49,8 @@ public class FeriadoServiceImp implements FeriadoService {
 				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado o feriado com id : " + id));
 		feriado.setDataFeriado(body.getDataFeriado());
 		feriado.setDescricao(body.getDescricao());
-		return mapper.map(feriado, FeriadoDTO.class);
+		Feriado feriadoSaved = repository.save(feriado);
+		return mapper.map(feriadoSaved, FeriadoDTO.class);
 	}
 
 	@Override

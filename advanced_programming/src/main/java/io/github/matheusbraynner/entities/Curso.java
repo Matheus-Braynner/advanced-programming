@@ -1,9 +1,19 @@
 package io.github.matheusbraynner.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.github.matheusbraynner.entities.enums.Turno;
 import lombok.AllArgsConstructor;
@@ -21,12 +31,14 @@ public class Curso {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
-	private Long idCurso;
+	private Long id;
 	private String nomeCurso;
 	private Double cargaHorariaAula;
 	private Double cargaHorariaTotal;
+	@Enumerated(EnumType.STRING)
 	private Turno turno;
 	private Double valor;
-	
-
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "idCurso", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<DiaAula> diasAulas = new ArrayList<>();
 }

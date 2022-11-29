@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class FeriadoFormDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Long idFeriado;
+	private Long id;
 	@NotNull(message = "obligatory field")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date dataFeriado;

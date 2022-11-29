@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import io.github.matheusbraynner.dto.DiaAulaDTO;
 import io.github.matheusbraynner.dto.DiaAulaFormDTO;
 import io.github.matheusbraynner.dto.FeriadoDTO;
+import io.github.matheusbraynner.entities.Curso;
 import io.github.matheusbraynner.entities.DiaAula;
+import io.github.matheusbraynner.repositories.CursoRepository;
 import io.github.matheusbraynner.repositories.DiaAulaRepository;
 import io.github.matheusbraynner.services.exceptions.DatabaseException;
 import io.github.matheusbraynner.services.exceptions.FeriadoMatchClassException;
@@ -25,6 +27,9 @@ public class DiaAulaServiceImp implements DiaAulaService {
 
 	@Autowired
 	private FeriadoService feriadoService;
+	
+	@Autowired
+	private CursoRepository cursoRepository;
 
 	@Autowired
 	private ModelMapper mapper;
@@ -34,8 +39,12 @@ public class DiaAulaServiceImp implements DiaAulaService {
 		if (!checkHolidayDate(body)) {
 			throw new FeriadoMatchClassException("Não se pode inserir uma aula em dia de feriado, marque outra data!!");
 		}
-		DiaAula diaAula = repository.save(mapper.map(body, DiaAula.class));
-		return mapper.map(diaAula, DiaAulaDTO.class);
+		Curso curso = cursoRepository.findById(body.getIdCurso())
+				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado o curso com id : " + body.getIdCurso()));
+		DiaAula diaAula = mapper.map(body, DiaAula.class);
+		diaAula.setIdCurso(curso);
+		DiaAula diaAulaSaved = repository.save(mapper.map(diaAula, DiaAula.class));
+		return mapper.map(diaAulaSaved, DiaAulaDTO.class);
 	}
 
 	@Override
@@ -60,8 +69,8 @@ public class DiaAulaServiceImp implements DiaAulaService {
 		DiaAula diaAula = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado o dia da aula com id : " + id));
 		diaAula.setDiaAula(body.getDiaAula());
-		diaAula.setIdCurso(body.getIdCurso());
-		return mapper.map(diaAula, DiaAulaDTO.class);
+		DiaAula diaAulaSaved = repository.save(diaAula);
+		return mapper.map(diaAulaSaved, DiaAulaDTO.class);
 	}
 
 	@Override

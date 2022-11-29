@@ -50,7 +50,8 @@ public class ProfessorServiceImp implements ProfessorService {
 		professor.setNome(body.getNome());
 		professor.setTelefone(body.getTelefone());
 		professor.setValorHoraAula(body.getValorHoraAula());
-		return mapper.map(professor, ProfessorDTO.class);
+		Professor professorSaved = repository.save(professor);
+		return mapper.map(professorSaved, ProfessorDTO.class);
 	}
 
 	@Override
