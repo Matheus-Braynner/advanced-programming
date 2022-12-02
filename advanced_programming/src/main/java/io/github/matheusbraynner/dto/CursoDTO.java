@@ -32,6 +32,5 @@ public class CursoDTO implements Serializable {
 		this.turno = curso.getTurno();
 		this.valor = curso.getValor();
 		this.diasAulas = curso.getDiasAulas();
-		this.turmas = curso.getTurmas();
 	}
 }

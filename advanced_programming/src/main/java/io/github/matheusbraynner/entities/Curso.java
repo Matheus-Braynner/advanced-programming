@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import io.github.matheusbraynner.entities.enums.Turno;
 import lombok.AllArgsConstructor;
@@ -39,5 +41,5 @@ public class Curso {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "idCurso", fetch = FetchType.LAZY)
 	private List<DiaAula> diasAulas = new ArrayList<>();
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cursoId", fetch = FetchType.LAZY)
-	private List<Turma> turmas = new ArrayList<>();
+	private List<DiaAula> diasAulas = new ArrayList<>();
 }
