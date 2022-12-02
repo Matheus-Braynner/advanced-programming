@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.github.matheusbraynner.entities.Curso;
 import io.github.matheusbraynner.entities.DiaAula;
+import io.github.matheusbraynner.entities.Turma;
 import io.github.matheusbraynner.entities.enums.Turno;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class CursoDTO implements Serializable {
 	private Turno turno;
 	private Double valor;
 	private List<DiaAula> diasAulas;
+	private List<Turma> turmas;
 	
 	public CursoDTO (Curso curso) {
 		this.id = curso.getId();

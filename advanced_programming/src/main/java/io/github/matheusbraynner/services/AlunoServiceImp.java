@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import io.github.matheusbraynner.dto.AlunoDTO;
 import io.github.matheusbraynner.dto.AlunoFormDTO;
 import io.github.matheusbraynner.entities.Aluno;
+import io.github.matheusbraynner.entities.Turma;
 import io.github.matheusbraynner.repositories.AlunoRepository;
+import io.github.matheusbraynner.repositories.TurmaRepository;
 import io.github.matheusbraynner.services.exceptions.DatabaseException;
 import io.github.matheusbraynner.services.exceptions.ResourceNotFoundException;
 
@@ -21,12 +23,19 @@ public class AlunoServiceImp implements AlunoService {
 	private AlunoRepository repository;
 	
 	@Autowired
+	private TurmaRepository turmaRepository;
+	
+	@Autowired
 	private ModelMapper mapper;
 
 	@Override
 	public AlunoDTO insert(AlunoFormDTO body) {
-		Aluno aluno = repository.save(mapper.map(body, Aluno.class));
-		return mapper.map(aluno, AlunoDTO.class);
+		Turma turma = turmaRepository.findById(body.getTurmaId())
+				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado a turma com o id: " + body.getTurmaId()));
+		Aluno aluno = mapper.map(body, Aluno.class);
+		aluno.setTurmaId(turma);
+		Aluno alunoSaved = repository.save(aluno);
+		return mapper.map(alunoSaved, AlunoDTO.class);
 	}
 
 	@Override

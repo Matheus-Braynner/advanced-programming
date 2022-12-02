@@ -1,21 +1,20 @@
 package io.github.matheusbraynner.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-import io.github.matheusbraynner.entities.enums.Turno;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,23 +22,25 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Curso {
+public class Turma implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Long id;
-	private String nomeCurso;
-	private Double cargaHorariaAula;
-	private Double cargaHorariaTotal;
-	@Enumerated(EnumType.STRING)
-	private Turno turno;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "turmaId", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Aluno> alunos = new ArrayList<>();
 	private Double valor;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "idCurso", fetch = FetchType.LAZY)
-	private List<DiaAula> diasAulas = new ArrayList<>();
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cursoId", fetch = FetchType.LAZY)
-	private List<DiaAula> diasAulas = new ArrayList<>();
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Curso cursoId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Professor professorId;
+
 }
