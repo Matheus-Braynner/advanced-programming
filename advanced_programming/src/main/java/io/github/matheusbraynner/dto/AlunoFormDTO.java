@@ -21,4 +21,6 @@ public class AlunoFormDTO implements Serializable {
 	private String endereco;
 	@NotBlank(message = "Campo obrigatório")
 	private String cpf;
+	private Long turmaId;
+	
 }
