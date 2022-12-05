@@ -1,16 +1,16 @@
 package io.github.matheusbraynner.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,10 +19,10 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Aluno implements Serializable {
+public class Professor implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -31,10 +31,8 @@ public class Aluno implements Serializable {
 	private Long id;
 	private String nome;
 	private String telefone;
-	private String endereco;
-	private String cpf;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "turma_id")
-	@JsonIgnore
-	private Turma turmaId;
+	private Double valorHoraAula;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "professorId", fetch = FetchType.LAZY)
+	private List<Turma> turmas = new ArrayList<>();
+
 }

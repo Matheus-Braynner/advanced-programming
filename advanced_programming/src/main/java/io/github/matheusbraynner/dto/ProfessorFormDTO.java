@@ -3,13 +3,16 @@ package io.github.matheusbraynner.dto;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
-public class AlunoFormDTO implements Serializable {
+
+public class ProfessorFormDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
@@ -17,10 +20,7 @@ public class AlunoFormDTO implements Serializable {
 	private String nome;
 	@NotBlank(message = "Campo obrigatório")
 	private String telefone;
-	@NotBlank(message = "Campo obrigatório")
-	private String endereco;
-	@NotBlank(message = "Campo obrigatório")
-	private String cpf;
-	private Long turmaId;
+	@NotNull(message = "Campo obrigatório")
+	private Double valorHoraAula;
 	
 }
