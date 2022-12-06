@@ -25,8 +25,9 @@ public class CursoServiceImp implements CursoService {
 
 	@Override
 	public CursoDTO insert(CursoFormDTO body) {
-		 Curso curso = repository.save(mapper.map(body, Curso.class));
-		return mapper.map(curso, CursoDTO.class);
+		Curso curso = mapper.map(body, Curso.class);
+		Curso cursoSaved = repository.save(curso);
+		return mapper.map(cursoSaved, CursoDTO.class);
 	}
 
 	@Override
@@ -59,13 +60,12 @@ public class CursoServiceImp implements CursoService {
 	@Override
 	public void delete(Long id) {
 		try {
-			Curso curso = repository.findById(id).orElseThrow(
-					() -> new ResourceNotFoundException("Não foi encontrado o curso com id : " + id));
+			Curso curso = repository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado o curso com id : " + id));
 			repository.delete(curso);
 		} catch (DatabaseException e) {
 			throw new DatabaseException(e.getMessage());
 		}
 
 	}
-
 }

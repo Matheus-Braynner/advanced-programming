@@ -1,5 +1,8 @@
 package io.github.matheusbraynner.services;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,10 +27,9 @@ public class DiaAulaServiceImp implements DiaAulaService {
 	@Autowired
 	private DiaAulaRepository repository;
 
-
 	@Autowired
 	private FeriadoService feriadoService;
-	
+
 	@Autowired
 	private CursoRepository cursoRepository;
 
@@ -39,11 +41,12 @@ public class DiaAulaServiceImp implements DiaAulaService {
 		if (!checkHolidayDate(body)) {
 			throw new FeriadoMatchClassException("Não se pode inserir uma aula em dia de feriado, marque outra data!!");
 		}
-		Curso curso = cursoRepository.findById(body.getIdCurso())
-				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado o curso com id : " + body.getIdCurso()));
+		Curso curso = cursoRepository.findById(body.getIdCurso()).orElseThrow(
+				() -> new ResourceNotFoundException("Não foi encontrado o curso com id : " + body.getIdCurso()));
 		DiaAula diaAula = mapper.map(body, DiaAula.class);
 		diaAula.setIdCurso(curso);
 		DiaAula diaAulaSaved = repository.save(mapper.map(diaAula, DiaAula.class));
+		checkDayOfMonth(diaAula, curso);
 		return mapper.map(diaAulaSaved, DiaAulaDTO.class);
 	}
 
@@ -89,10 +92,39 @@ public class DiaAulaServiceImp implements DiaAulaService {
 		List<FeriadoDTO> feriadoList = feriadoService.findAll();
 
 		for (FeriadoDTO feriado : feriadoList) {
-			if (!feriado.getDataFeriado().after(body.getDiaAula()) && !feriado.getDataFeriado().before(body.getDiaAula())) {
+			if (!feriado.getDataFeriado().after(body.getDiaAula())
+					&& !feriado.getDataFeriado().before(body.getDiaAula())) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private List<LocalDate> convertToLocalDate(DiaAula body) {
+		List<DiaAula> diaAulaList = repository.findAll();
+		List<LocalDate> ldList = new ArrayList<>();
+		for(int i = 0; i < diaAulaList.size(); i ++) {
+			LocalDate ldAula = diaAulaList.get(i).getDiaAula().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			ldList.add(ldAula);
+		}
+		return ldList;
+	}
+	
+
+	private void checkDayOfMonth(DiaAula body, Curso curso) {
+		List<LocalDate> ldAula = convertToLocalDate(body);
+		List<LocalDate> segunda = ldAula.stream().filter((x) -> x.getDayOfWeek().getValue() == 1).collect(Collectors.toList());
+		curso.setSegunda(segunda);
+		List<LocalDate> terca = ldAula.stream().filter((x) -> x.getDayOfWeek().getValue() == 2).collect(Collectors.toList());
+		curso.setTerca(terca);
+		List<LocalDate> quarta = ldAula.stream().filter((x) -> x.getDayOfWeek().getValue() == 3).collect(Collectors.toList());
+		curso.setQuarta(quarta);
+		List<LocalDate> quinta = ldAula.stream().filter((x) -> x.getDayOfWeek().getValue() == 4).collect(Collectors.toList());
+		curso.setQuinta(quinta);
+		List<LocalDate> sexta = ldAula.stream().filter((x) -> x.getDayOfWeek().getValue() == 5).collect(Collectors.toList());
+		curso.setSexta(sexta);
+		List<LocalDate> sabado = ldAula.stream().filter((x) -> x.getDayOfWeek().getValue() == 6).collect(Collectors.toList());
+		curso.setSabado(sabado);
+		cursoRepository.save(curso);
 	}
 }
